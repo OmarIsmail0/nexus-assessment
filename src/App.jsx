@@ -12,9 +12,7 @@ function App() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <h1 className="text-3xl font-bold text-gray-800">API Demo with Axios</h1>
-          <p className="text-gray-600 mt-2">
-            A well-structured API service using axios with React hooks
-          </p>
+          <p className="text-gray-600 mt-2">A well-structured API service using axios with React hooks</p>
         </div>
       </header>
 
@@ -55,9 +53,7 @@ function App() {
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            This demo showcases a well-structured API service architecture using:
-          </p>
+          <p className="text-gray-400">This demo showcases a well-structured API service architecture using:</p>
           <div className="mt-2 flex justify-center space-x-6 text-sm text-gray-300">
             <span>• Axios for HTTP requests</span>
             <span>• Custom React hooks</span>
