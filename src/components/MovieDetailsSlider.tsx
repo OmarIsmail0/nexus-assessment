@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import tomatoes from "../assets/tomatoes.svg";
+import type { MovieDetails } from "../types";
 
-const MovieDetailsSlider = ({ movie, onClose, onViewDetails }) => {
+interface MovieDetailsSliderProps {
+  movie: MovieDetails;
+  onClose: () => void;
+  onViewDetails: (movieId: string) => void;
+}
+
+const MovieDetailsSlider = ({ movie, onClose, onViewDetails }: MovieDetailsSliderProps) => {
   const [drawerEntering, setDrawerEntering] = useState(false);
 
   useEffect(() => {
@@ -50,7 +57,8 @@ const MovieDetailsSlider = ({ movie, onClose, onViewDetails }) => {
                 alt={movie?.Title}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/300x450/f3f4f6/9ca3af?text=No+Image";
+                  (e.target as HTMLImageElement).src =
+                    "https://via.placeholder.com/300x450/f3f4f6/9ca3af?text=No+Image";
                 }}
               />
             </div>

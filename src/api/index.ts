@@ -1,7 +1,8 @@
 import omdbApi from "./omdb";
 
 const api = {
-  omdbApi,
+    omdbApi,
 };
 
 export default api;
+

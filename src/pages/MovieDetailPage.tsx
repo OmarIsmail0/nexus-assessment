@@ -3,17 +3,19 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { getContainerClasses } from "../config/appConfig";
 import tomatoes from "./../assets/tomatoes.svg";
+import type { MovieDetails, MovieDetailsResponse } from "../types";
 
 const MovieDetailPage = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getMovieDetails = async () => {
       try {
-        const response = await api.omdbApi.getMovies({ imdbID: id });
+        if (!id) return;
+        const response = (await api.omdbApi.getMovies({ imdbID: id })) as MovieDetailsResponse;
         setMovie(response);
         setLoading(false);
       } catch (error) {
@@ -35,6 +37,16 @@ const MovieDetailPage = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading movie details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!movie) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Movie not found</p>
         </div>
       </div>
     );
@@ -81,10 +93,11 @@ const MovieDetailPage = () => {
               <div className="aspect-[3/4] lg:aspect-[4/5] lg:max-h-[500px]">
                 <img
                   src={movie.Poster}
-                  alt={movie.title}
+                  alt={movie.Title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/400x600/f3f4f6/9ca3af?text=No+Image";
+                    (e.target as HTMLImageElement).src =
+                      "https://via.placeholder.com/400x600/f3f4f6/9ca3af?text=No+Image";
                   }}
                 />
               </div>

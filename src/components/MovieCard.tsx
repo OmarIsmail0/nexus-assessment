@@ -1,4 +1,11 @@
-const MovieCard = ({ movie, onClick }) => {
+import type { MovieDetails } from "../types";
+
+interface MovieCardProps {
+  movie: MovieDetails;
+  onClick: () => void;
+}
+
+const MovieCard = ({ movie, onClick }: MovieCardProps) => {
   return (
     <div
       onClick={onClick}
@@ -11,7 +18,7 @@ const MovieCard = ({ movie, onClick }) => {
           alt={movie?.Title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
           onError={(e) => {
-            e.target.src = "https://via.placeholder.com/300x450/f3f4f6/9ca3af?text=No+Image";
+            (e.target as HTMLImageElement).src = "https://via.placeholder.com/300x450/f3f4f6/9ca3af?text=No+Image";
           }}
         />
       </div>

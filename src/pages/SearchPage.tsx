@@ -5,13 +5,14 @@ import MovieDetailsSlider from "../components/MovieDetailsSlider";
 import { APP_CONFIG, getContainerClasses } from "../config/appConfig";
 import api from "../api";
 import { message } from "antd";
+import type { MovieDetails, MovieSearchResponse } from "../types";
 
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState(undefined);
-  const [yearFilter, setYearFilter] = useState(undefined);
-  const [searchResults, setSearchResults] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [typeFilter, setTypeFilter] = useState<string | null | undefined>(undefined);
+  const [yearFilter, setYearFilter] = useState<string | undefined>(undefined);
+  const [searchResults, setSearchResults] = useState<MovieDetails[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<MovieDetails | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -21,7 +22,7 @@ const SearchPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const navigate = useNavigate();
-  const searchTimeoutRef = useRef(null);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const currentPageRef = useRef(1);
 
   // Function to calculate items per page based on screen size and grid layout
@@ -51,7 +52,7 @@ const SearchPage = () => {
 
   // Update items per page on window resize (debounced)
   useEffect(() => {
-    let resizeTimeout;
+    let resizeTimeout: NodeJS.Timeout;
 
     const handleResize = () => {
       // Debounce resize events to avoid excessive re-renders
@@ -88,30 +89,30 @@ const SearchPage = () => {
           setIsSearching(true);
           searchTimeoutRef.current = setTimeout(async () => {
             try {
-              const response = await api.omdbApi.getMovies({
+              const response = (await api.omdbApi.getMovies({
                 title: searchQuery,
                 type: typeFilter == "All" ? null : typeFilter,
                 year: yearFilter,
                 page: currentPage,
-              });
+              })) as MovieSearchResponse;
 
               if (response && response.Response === "True" && response.Search) {
                 const hydratedMovies = await Promise.all(
                   response.Search.map(async (movie) => {
                     const movieDetails = await api.omdbApi.getMovies({ imdbID: movie.imdbID });
-                    return { ...movie, ...movieDetails };
+                    return { ...movie, ...movieDetails } as MovieDetails;
                   })
                 );
 
                 setSearchResults(hydratedMovies);
                 setTotalResults(parseInt(response.totalResults) || 0);
               } else {
-                messageApi.error(response.Error);
+                messageApi.error(response.Error || "An error occurred");
                 setSearchResults([]);
                 setTotalResults(0);
               }
             } catch (error) {
-              messageApi.error(error.message);
+              messageApi.error((error as Error).message);
               setSearchResults([]);
               setTotalResults(0);
             }
@@ -160,7 +161,7 @@ const SearchPage = () => {
     }
   }, [totalPages]);
 
-  const handleMovieClick = (movie) => {
+  const handleMovieClick = (movie: MovieDetails) => {
     setSelectedMovie(movie);
   };
 
@@ -168,11 +169,11 @@ const SearchPage = () => {
     setSelectedMovie(null);
   };
 
-  const handleViewDetails = (movieId) => {
+  const handleViewDetails = (movieId: string) => {
     navigate(`/movie/${movieId}`);
   };
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
     currentPageRef.current = newPage;
   };
@@ -221,12 +222,12 @@ const SearchPage = () => {
               </div>
               <div className="sm:w-32">
                 <select
-                  value={typeFilter}
-                  onChange={(e) => setTypeFilter(e.target.value)}
+                  value={typeFilter || ""}
+                  onChange={(e) => setTypeFilter(e.target.value || null)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
                 >
                   {APP_CONFIG.filters.types.map((type) => (
-                    <option key={type.value} value={type.value}>
+                    <option key={type.label} value={type.value || ""}>
                       {type.label}
                     </option>
                   ))}
@@ -236,8 +237,8 @@ const SearchPage = () => {
                 <input
                   type="text"
                   placeholder="Year (e.g., 2014)"
-                  value={yearFilter}
-                  onChange={(e) => setYearFilter(e.target.value)}
+                  value={yearFilter || ""}
+                  onChange={(e) => setYearFilter(e.target.value || undefined)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
                 />
               </div>
@@ -294,7 +295,7 @@ const SearchPage = () => {
 
                       {/* Page Numbers */}
                       {(() => {
-                        const pages = [];
+                        const pages: React.ReactElement[] = [];
                         const maxVisiblePages = 5;
                         let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
                         let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
