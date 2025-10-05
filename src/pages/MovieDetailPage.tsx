@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "../api";
 import { getContainerClasses } from "../config/appConfig";
 import tomatoes from "./../assets/tomatoes.svg";
@@ -27,9 +27,9 @@ const MovieDetailPage = () => {
     getMovieDetails();
   }, [id]);
 
-  const handleGoBack = () => {
+  const handleGoBack = useCallback(() => {
     navigate("/");
-  };
+  }, [navigate]);
 
   if (loading) {
     return (

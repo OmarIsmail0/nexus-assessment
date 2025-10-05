@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import tomatoes from "../assets/tomatoes.svg";
 import type { MovieDetails } from "../types";
 
@@ -8,7 +8,7 @@ interface MovieDetailsSliderProps {
   onViewDetails: (movieId: string) => void;
 }
 
-const MovieDetailsSlider = ({ movie, onClose, onViewDetails }: MovieDetailsSliderProps) => {
+const MovieDetailsSlider = memo(({ movie, onClose, onViewDetails }: MovieDetailsSliderProps) => {
   const [drawerEntering, setDrawerEntering] = useState(false);
 
   useEffect(() => {
@@ -16,14 +16,14 @@ const MovieDetailsSlider = ({ movie, onClose, onViewDetails }: MovieDetailsSlide
     setDrawerEntering(true);
   }, []);
 
-  const closeDrawer = () => {
+  const closeDrawer = useCallback(() => {
     setDrawerEntering(false);
     onClose();
-  };
+  }, [onClose]);
 
-  const handleViewDetailsClick = () => {
+  const handleViewDetailsClick = useCallback(() => {
     onViewDetails(movie?.imdbID);
-  };
+  }, [onViewDetails, movie?.imdbID]);
 
   return (
     <div className="fixed inset-0 z-50 flex" role="dialog" aria-modal="true" onClick={closeDrawer}>
@@ -206,6 +206,8 @@ const MovieDetailsSlider = ({ movie, onClose, onViewDetails }: MovieDetailsSlide
       </aside>
     </div>
   );
-};
+});
+
+MovieDetailsSlider.displayName = "MovieDetailsSlider";
 
 export default MovieDetailsSlider;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import MovieDetailsSlider from "../components/MovieDetailsSlider";
@@ -28,7 +28,7 @@ const SearchPage = () => {
   // Function to calculate items per page based on screen size and grid layout
   // Grid layout: grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5
   // Always show exactly 2 rows per page
-  const calculateItemsPerPage = () => {
+  const calculateItemsPerPage = useCallback(() => {
     const width = window.innerWidth;
     let columns;
     const rows = 2; // Always 2 rows per page
@@ -48,7 +48,7 @@ const SearchPage = () => {
     }
 
     return columns * rows;
-  };
+  }, []);
 
   // Update items per page on window resize (debounced)
   useEffect(() => {
@@ -161,25 +161,28 @@ const SearchPage = () => {
     }
   }, [totalPages]);
 
-  const handleMovieClick = (movie: MovieDetails) => {
+  const handleMovieClick = useCallback((movie: MovieDetails) => {
     setSelectedMovie(movie);
-  };
+  }, []);
 
-  const handleCloseSlider = () => {
+  const handleCloseSlider = useCallback(() => {
     setSelectedMovie(null);
-  };
+  }, []);
 
-  const handleViewDetails = (movieId: string) => {
-    navigate(`/movie/${movieId}`);
-  };
+  const handleViewDetails = useCallback(
+    (movieId: string) => {
+      navigate(`/movie/${movieId}`);
+    },
+    [navigate]
+  );
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = useCallback((newPage: number) => {
     setCurrentPage(newPage);
     currentPageRef.current = newPage;
-  };
+  }, []);
 
   // API already handles pagination, so we use searchResults directly
-  const paginatedResults = searchResults;
+  const paginatedResults = useMemo(() => searchResults, [searchResults]);
 
   return (
     <div className="min-h-screen bg-gray-50">

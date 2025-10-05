@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { MovieDetails } from "../types";
 
 interface MovieCardProps {
@@ -5,7 +6,7 @@ interface MovieCardProps {
   onClick: () => void;
 }
 
-const MovieCard = ({ movie, onClick }: MovieCardProps) => {
+const MovieCard = memo(({ movie, onClick }: MovieCardProps) => {
   return (
     <div
       onClick={onClick}
@@ -41,6 +42,8 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
       </div>
     </div>
   );
-};
+});
+
+MovieCard.displayName = "MovieCard";
 
 export default MovieCard;

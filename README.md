@@ -2,10 +2,7 @@
 
 A modern, responsive movie search application built with React, TypeScript, and Vite. Search for movies, TV series, and episodes using the OMDb API with a beautiful, intuitive interface.
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 ## ✨ Features
 
@@ -39,18 +36,20 @@ A modern, responsive movie search application built with React, TypeScript, and 
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/OmarIsmail0/nexus-assessment.git
    cd nexus-assessment
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
-3. **Set up environment variables**
-   Create a `.env` file in the root directory:
+3. **Set up environment variables** Create a `.env` file in the root directory:
+
    ```env
    VITE_OMDB_API_KEY=your_omdb_api_key_here
    VITE_OMDB_API_URL=http://www.omdbapi.com/
@@ -58,12 +57,12 @@ A modern, responsive movie search application built with React, TypeScript, and 
    ```
 
 4. **Start the development server**
+
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
-   Navigate to `http://localhost:5173`
+5. **Open your browser** Navigate to `http://localhost:5173`
 
 ## 📜 Available Scripts
 
@@ -102,21 +101,25 @@ src/
 ## 🎯 Key Features Explained
 
 ### Type-Safe API Integration
+
 - Comprehensive TypeScript interfaces for OMDb API responses
 - Type-safe API calls with proper error handling
 - IntelliSense support for all API interactions
 
 ### Responsive Grid Layout
+
 - Adaptive grid that adjusts based on screen size
 - Mobile-first design approach
 - Optimized for all device types
 
 ### Advanced Search & Filtering
+
 - Real-time search with debouncing
 - Filter by content type and release year
 - Pagination for large result sets
 
 ### Movie Details
+
 - Comprehensive movie information display
 - Ratings from multiple sources (IMDb, Rotten Tomatoes, Metacritic)
 - Responsive image handling with fallbacks
@@ -124,14 +127,18 @@ src/
 ## 🔧 Configuration
 
 ### TypeScript Configuration
+
 The project uses strict TypeScript configuration with:
+
 - Strict type checking enabled
 - No unused variables/parameters allowed
 - Consistent casing enforcement
 - ES2020 target with modern module resolution
 
 ### Tailwind CSS
+
 Custom configuration with:
+
 - Responsive design utilities
 - Custom color schemes
 - Optimized for performance
@@ -139,16 +146,19 @@ Custom configuration with:
 ## 🚀 Deployment
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
 
 The build process includes:
+
 1. TypeScript compilation and type checking
 2. Vite bundling and optimization
 3. Asset optimization and compression
 
 ### Deploy to Vercel/Netlify
+
 1. Connect your GitHub repository
 2. Set environment variables in the deployment platform
 3. Deploy automatically on push to main branch
@@ -164,6 +174,7 @@ The build process includes:
 ## 📝 API Usage
 
 This application uses the OMDb API. Please ensure you:
+
 - Have a valid API key
 - Respect the API rate limits
 - Use the API responsibly
